@@ -8,6 +8,8 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
 
+The first time I ran it, the game looked normal but behaved wrongly. The hints pointed the wrong way, the secret number could fall outside the range of the difficulty I picked, and "New Game" stopped working after a win or loss. I also found a quieter bug: on every other attempt the secret was turned into a string, so numbers were compared as text.
+
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
@@ -47,13 +49,14 @@ Document at least 3 bugs you found. Add rows as needed.
 
 ## 4. What did you learn about Streamlit and state?
 
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+Streamlit re-runs the whole `app.py` script from top to bottom every time you click a button or type in a box. Any normal variable is thrown away on each rerun, so the script would forget the secret number every time. `st.session_state` is a dictionary that survives reruns, so anything stored there, like the secret, the attempts and the score, is remembered. Two of my bugs came from this: the secret was only created once and never refreshed when the difficulty changed, and "New Game" reset some session values but not the game status. The fix was to make the reset explicit in one `reset_game()` function and to run it when the difficulty changes.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+**A habit to reuse:** Comparing the old and new code after every AI change, and working one small step at a time. Because I stopped the AI from running ahead (for example, before it updated the tests), I understood each change and could commit each step separately.
+
+**What I would do differently:** I would write a failing test for each bug before asking the AI to fix it, so every repair is proven by a test and not only by reading the code. In this project the first tests only checked the outcome label, which was never wrong, so they would not have caught the swapped hint messages.
+
+**How my thinking changed:** AI-generated code can look clean and still hide bugs, like the secret being quietly cast to a string on every other attempt. The AI was a fast, useful teammate for finding and explaining problems, but I still had to read every diff and decide what was in scope.
