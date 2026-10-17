@@ -64,7 +64,3 @@ tests/test_game_logic.py .....                                           [100%]
 
 ============================== 5 passed in 0.00s ===============================
 ```
-
-## 🚀 Stretch Features
-
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
