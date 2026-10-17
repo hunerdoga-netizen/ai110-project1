@@ -38,6 +38,7 @@ def check_guess(guess, secret):
 
     outcome examples: "Win", "Too High", "Too Low"
     """
+    # FIX: Hint messages were swapped (too high said "Go HIGHER!"); fixed with Claude Code and covered by tests/test_game_logic.py
     if guess == secret:
         return "Win", "🎉 Correct!"
 

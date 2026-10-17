@@ -1,5 +1,6 @@
 import random
 import streamlit as st
+# FIX: Refactored game logic out of the UI into logic_utils.py with Claude Code; I reviewed the old vs new diff for each move
 from logic_utils import check_guess, get_range_for_difficulty, parse_guess, update_score
 
 
@@ -36,6 +37,7 @@ def reset_game():
     st.session_state.history = []
 
 
+# FIX: Secret ignored the selected difficulty; Claude Code proposed tracking the difficulty and redrawing, I checked it in the debug expander
 # Redraw the secret and reset state on first load and whenever difficulty changes
 if st.session_state.get("difficulty") != difficulty:
     st.session_state.difficulty = difficulty
@@ -69,6 +71,7 @@ with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
+    # FIX: New Game now resets status/history/score via reset_game() (suggested by Claude Code, reviewed by me)
     reset_game()
     st.rerun()
 
@@ -90,6 +93,7 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
+        # FIX: Always pass the int secret (the old even-attempt str() cast broke comparisons); found with Claude Code, confirmed by pytest
         outcome, message = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
